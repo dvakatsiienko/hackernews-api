@@ -29,13 +29,13 @@
         "jsonwebtoken": "8.5.1",
         "prisma": "3.1.1",
         "ts-node-dev": "1.1.8",
-        "ws": "8.2.2"
+        "ws": "8.2.3"
     },
     "devDependencies": {
         "@graphql-codegen/cli": "2.2.0",
         "@graphql-codegen/typescript": "2.2.2",
         "eslint": "7.32.0",
         "eslint-config-dva": "0.0.13",
-        "typescript": "4.5.0-dev.20211001"
+        "typescript": "4.5.0-dev.20211002"
     }
 }
