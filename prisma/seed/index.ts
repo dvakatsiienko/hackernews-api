@@ -11,10 +11,10 @@ async function main() {
         data: {
             email: 'test@email.io',
             password,
-            name:  'Dima',
+            name: 'Dima',
             posts: {
                 create: {
-                    url:         'https://railway.app',
+                    url: 'https://railway.app',
                     description:
                         'Railway.app is a cool fit for an API deployments.',
                     votes: {
@@ -31,12 +31,12 @@ async function main() {
         data: {
             email: 'lauren-german@email.io',
             password,
-            name:  'Lauren German',
+            name: 'Lauren German',
             posts: {
                 create: {
-                    url:         'https://en.wikipedia.org/wiki/A_Walk_to_Remember',
+                    url: 'https://en.wikipedia.org/wiki/A_Walk_to_Remember',
                     description:
-                        '«A Walk to Remember» — really nice movie, watch it!',
+                        '«A Walk to Remember» — is a trash movie, do not watch it!',
                     votes: {
                         create: {
                             user: {
@@ -53,10 +53,10 @@ async function main() {
         data: {
             email: 'emmanuelle-seigner@email.io',
             password,
-            name:  'Emmanuelle Seigner',
+            name: 'Emmanuelle Seigner',
             posts: {
                 create: {
-                    url:         'https://en.wikipedia.org/wiki/Bitter_Moon',
+                    url: 'https://en.wikipedia.org/wiki/Bitter_Moon',
                     description:
                         '«Bitter Moon» — a movie that I appear in, check me out!',
                     votes: {
@@ -71,12 +71,12 @@ async function main() {
         data: {
             email: 'jack-robbins@email.io',
             password,
-            name:  'Jack Robbins',
+            name: 'Jack Robbins',
             posts: {
                 create: {
-                    url:         'https://www.prisma.io/nextjs',
+                    url: 'https://www.prisma.io/nextjs',
                     description: 'Check out Prisma with Next.js',
-                    votes:       {
+                    votes: {
                         create: [
                             { userId: dima.id },
                             { userId: lauren.id },
@@ -92,10 +92,10 @@ async function main() {
         data: {
             email: 'adam-shankman@email.io',
             password,
-            name:  'Adam Shankman',
+            name: 'Adam Shankman',
             posts: {
                 create: {
-                    url:         'https://vercel.com',
+                    url: 'https://vercel.com',
                     description:
                         'Vercel features really cool deployment service, chick it out!',
                     votes: {
@@ -113,10 +113,10 @@ async function main() {
 
     await prisma.post.create({
         data: {
-            postedById:  dima.id,
-            url:         'https://en.wikipedia.org/wiki/Brother_(1997_film)',
+            postedById: dima.id,
+            url: 'https://en.wikipedia.org/wiki/Brother_(1997_film)',
             description: 'Where the power lays in, brother?',
-            votes:       {
+            votes: {
                 create: [
                     { userId: dima.id },
                     { userId: lauren.id },

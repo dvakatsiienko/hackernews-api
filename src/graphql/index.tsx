@@ -30,6 +30,7 @@ export type Mutation = {
   deletePost: Scalars['Boolean'];
   login?: Maybe<AuthPayload>;
   signup?: Maybe<AuthPayload>;
+  unVote: Vote;
   updatePost: Post;
   vote: Vote;
 };
@@ -59,6 +60,11 @@ export type MutationSignupArgs = {
 };
 
 
+export type MutationUnVoteArgs = {
+  postId: Scalars['ID'];
+};
+
+
 export type MutationUpdatePostArgs = {
   description: Scalars['String'];
   id: Scalars['ID'];
@@ -75,6 +81,7 @@ export type Post = {
   createdAt: Scalars['Date'];
   description: Scalars['String'];
   id: Scalars['ID'];
+  isVotedByMe: Scalars['Boolean'];
   postedBy: User;
   url: Scalars['String'];
   votes: Array<Vote>;

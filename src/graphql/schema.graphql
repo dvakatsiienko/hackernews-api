@@ -16,6 +16,7 @@ type Mutation {
     deletePost(id: ID!): Boolean!
 
     vote(postId: ID!): Vote!
+    unVote(postId: ID!): Vote!
 }
 
 type Subscription {
@@ -48,6 +49,7 @@ type Post {
     postedBy: User!
     votes: [Vote!]!
     createdAt: Date!
+    isVotedByMe: Boolean!
 }
 
 enum SORT {

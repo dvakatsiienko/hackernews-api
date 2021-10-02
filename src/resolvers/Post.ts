@@ -24,10 +24,27 @@ export const Post: PostResolvers = {
 
         return votes;
     },
+
+    async isVotedByMe(post, _, ctx) {
+        if (!ctx.currentUser) {
+            return false;
+        }
+
+        const userId = ctx.currentUser.userId;
+
+        const votes = await ctx.prisma.post
+            .findUnique({ where: { id: post.id } })
+            .votes();
+
+        const isVotedByMe = votes.some(vote => vote.userId === userId);
+
+        return isVotedByMe;
+    },
 };
 
 /* Types */
 interface PostResolvers {
     postedBy: Resolver<unknown, PrismaPost>;
     votes: Resolver<unknown, PrismaPost>;
+    isVotedByMe: Resolver<unknown, PrismaPost>;
 }

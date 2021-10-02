@@ -28,6 +28,7 @@ export const createApolloCtx = (expressCtx: ExpressCtx) => {
             chalk.redBright(operationName),
         ),
     );
+
     const currentUser = decodeJWTPayload(
         req.headers.authorization,
         expressCtx.req.body?.operationName,

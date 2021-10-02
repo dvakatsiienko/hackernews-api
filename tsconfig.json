@@ -10,7 +10,6 @@
         "strict": true,
         "lib": ["ESNext"],
         "esModuleInterop": true,
-        "module": "CommonJS",
         "jsx": "preserve"
     }
 }

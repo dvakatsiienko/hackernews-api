@@ -23,8 +23,8 @@ export const Mutation: MutationResolvers = {
         });
 
         const jwtPayload = {
-            userId:   user.id,
-            email:    args.email,
+            userId: user.id,
+            email: args.email,
             password: args.password,
         };
 
@@ -55,8 +55,8 @@ export const Mutation: MutationResolvers = {
         }
 
         const jwtPayload = {
-            userId:   user.id,
-            email:    args.email,
+            userId: user.id,
+            email: args.email,
             password: args.password,
         };
 
@@ -72,9 +72,9 @@ export const Mutation: MutationResolvers = {
 
         const newPost = await ctx.prisma.post.create({
             data: {
-                url:         args.url,
+                url: args.url,
                 description: args.description,
-                postedBy:    {
+                postedBy: {
                     connect: {
                         id: ctx.currentUser.userId,
                     },
@@ -94,8 +94,8 @@ export const Mutation: MutationResolvers = {
 
         const updatedPost = await ctx.prisma.post.update({
             where: { id: args.id },
-            data:  {
-                url:         args.url,
+            data: {
+                url: args.url,
                 description: args.description,
             },
         });
@@ -124,30 +124,53 @@ export const Mutation: MutationResolvers = {
         const { userId } = ctx.currentUser;
 
         const isAlreadyVoted = await ctx.prisma.vote.findUnique({
-            where: {
-                postVotedBy: {
-                    postId,
-                    userId,
-                },
-            },
+            where: { postVotedBy: { postId, userId } },
         });
 
         if (isAlreadyVoted) {
-            throw new Error(`Already voted for link: ${args.postId}`);
+            throw new Error(`Already voted for post: ${args.postId}`);
         }
 
-        console.log(userId);
-
-        const newVote = ctx.prisma.vote.create({
+        const newVote = await ctx.prisma.vote.create({
             data: {
                 user: { connect: { id: userId } },
                 post: { connect: { id: args.postId } },
             },
         });
 
+        console.log(newVote);
+
         ctx.pubsub.publish(EVENT.POST_VOTED, newVote);
 
         return newVote;
+    },
+
+    async unVote(_, args, ctx) {
+        if (!ctx.currentUser) {
+            throw new Error('Not authenticated.');
+        }
+
+        const { postId } = args;
+        const { userId } = ctx.currentUser;
+
+        const isAlreadyVoted = await ctx.prisma.vote.findUnique({
+            where: { postVotedBy: { postId, userId } },
+        });
+
+        if (!isAlreadyVoted) {
+            throw new Error(`Not voted for post: ${args.postId}`);
+        }
+
+        const deletedVote = await ctx.prisma.vote.delete({
+            where: { id: isAlreadyVoted.id },
+        });
+
+        console.log(deletedVote);
+
+        // !TODO
+        // ctx.pubsub.publish(EVENT.POST_VOTED, deletedVote);
+
+        return deletedVote;
     },
 };
 
@@ -159,4 +182,5 @@ interface MutationResolvers {
     updatePost: Resolver<gql.MutationUpdatePostArgs>;
     deletePost: Resolver<gql.MutationDeletePostArgs>;
     vote: Resolver<gql.MutationVoteArgs>;
+    unVote: Resolver<gql.MutationVoteArgs>;
 }

@@ -9,9 +9,7 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import chalk from 'chalk';
 
 /* Instruments */
-import {
-    createApolloCtx, createWsCtx, wsLogging, getUrlParts
-} from './utils';
+import { createApolloCtx, createWsCtx, wsLogging, getUrlParts } from './utils';
 import { schema } from './graphql/schema';
 
 dotenv.config({ path: join(__dirname, '../.env.development.local') });
@@ -34,8 +32,8 @@ dotenv.config({ path: join(__dirname, '../.env.development.local') });
     httpServer.listen({ port, host: '0.0.0.0' }, () => {
         const wsServer = new ws.Server({
             server: httpServer,
-            path:   apolloServer.graphqlPath,
-            host:   '0.0.0.0',
+            path: apolloServer.graphqlPath,
+            host: '0.0.0.0',
         });
 
         useServer(

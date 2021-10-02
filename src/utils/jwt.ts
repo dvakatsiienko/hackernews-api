@@ -20,14 +20,14 @@ export const decodeJWTPayload = (
         throw new Error('JWT_SECRET env variable not found!');
     }
 
-    const token = authHeader.replace('Bearer ', '');
+    const token = authHeader?.replace('Bearer ', '');
 
     if (!token) {
         const operation = operationName?.toLowerCase();
 
         if (operation !== 'login' && operation !== 'signup') {
             console.log(
-                chalk.red('No token found in authorization header.', token),
+                chalk.red('No token in authorization header found.', token),
             );
         }
 

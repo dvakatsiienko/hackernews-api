@@ -6,17 +6,18 @@ import type { Resolver } from '../types';
 
 export const Vote: VoteProps = {
     async post(vote, _, ctx) {
-        const post = await ctx.prisma.vote
-            .findUnique({ where: { id: vote.id } })
-            .post();
+        const post = await ctx.prisma.post.findUnique({
+            where: { id: vote.postId },
+        });
 
         return post;
     },
 
     async user(vote, _, ctx) {
-        const user = await ctx.prisma.vote
-            .findUnique({ where: { id: vote.id } })
-            .user();
+        const user = await ctx.prisma.user.findUnique({
+            where: { id: vote.userId },
+        });
+
         return user;
     },
 };
