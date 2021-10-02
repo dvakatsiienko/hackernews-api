@@ -9,7 +9,9 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import chalk from 'chalk';
 
 /* Instruments */
-import { createApolloCtx, createWsCtx, wsLogging } from './utils';
+import {
+    createApolloCtx, createWsCtx, wsLogging, getUrlParts
+} from './utils';
 import { schema } from './graphql/schema';
 
 dotenv.config({ path: join(__dirname, '../.env.development.local') });
@@ -61,19 +63,3 @@ dotenv.config({ path: join(__dirname, '../.env.development.local') });
         );
     });
 })();
-
-/* Helpers */
-function getUrlParts() {
-    /* eslint-disable-next-line prefer-destructuring */
-    const port = Number(process.env.PORT);
-    const isProd = process.env.NODE_ENV === 'production';
-    const protocol = {
-        http: isProd ? 'https' : 'http',
-        ws:   isProd ? 'wss' : 'ws',
-    };
-    const host = isProd
-        ? 'hackernews-api-production.up.railway.app'
-        : 'localhost';
-
-    return { port, protocol, host };
-}
