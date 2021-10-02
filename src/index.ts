@@ -4,21 +4,15 @@ import { createServer } from 'http';
 import dotenv from 'dotenv';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { PrismaClient } from '@prisma/client';
 import ws from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
-import { PubSub } from 'graphql-subscriptions';
 import chalk from 'chalk';
 
 /* Instruments */
-import { ExpressCtx } from './types';
-import { decodeJWTPayload } from './utils';
+import { createApolloCtx, createWsCtx, wsLogging } from './utils';
 import { schema } from './graphql/schema';
 
 dotenv.config({ path: join(__dirname, '../.env.development.local') });
-
-const prisma = new PrismaClient();
-const pubsub = new PubSub();
 
 (async () => {
     const app = express();
@@ -26,27 +20,7 @@ const pubsub = new PubSub();
 
     const apolloServer = new ApolloServer({
         schema,
-        context: (expressCtx: ExpressCtx) => {
-            const { req } = expressCtx;
-
-            console.log(
-                chalk.blueBright(
-                    'Root CTX, operation name:',
-                    chalk.redBright(expressCtx.req.body?.operationName),
-                ),
-            );
-            const currentUser = decodeJWTPayload(
-                req.headers.authorization,
-                expressCtx.req.body?.operationName,
-            );
-
-            return {
-                req,
-                pubsub,
-                prisma,
-                currentUser,
-            };
-        },
+        context: createApolloCtx,
     });
 
     await apolloServer.start();
@@ -65,44 +39,8 @@ const pubsub = new PubSub();
         useServer(
             {
                 schema,
-                context(ctx) {
-                    const currentUser = decodeJWTPayload(
-                        ctx.connectionParams?.Authorization as string,
-                    );
-
-                    const subCtx = { pubsub, prisma, currentUser };
-
-                    return subCtx;
-                },
-                onConnect: () => {
-                    console.log(
-                        chalk.yellow('∞'),
-                        chalk.white('Subscription server'),
-                        `${chalk.greenBright('connected')}`,
-                    );
-                },
-                onSubscribe: (_, msg) => {
-                    console.log(
-                        chalk.yellow('∞'),
-                        chalk.white('Subscribed to'),
-                        `${chalk.redBright(msg.payload.operationName)}`,
-                    );
-                },
-                onError: (_, msg, errors) => {
-                    console.error(
-                        chalk.yellow('∞'),
-                        chalk.red('Subscription Error'),
-                        { msg, errors },
-                    );
-                },
-                onComplete: (_, operation) => {
-                    console.log(
-                        chalk.yellow('∞'),
-                        chalk.white('Subscription'),
-                        chalk.blueBright(operation.id),
-                        chalk.greenBright(operation.type),
-                    );
-                },
+                context: createWsCtx,
+                ...wsLogging,
             },
             wsServer,
         );

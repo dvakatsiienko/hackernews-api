@@ -5,12 +5,12 @@ import jwt from 'jsonwebtoken';
 import chalk from 'chalk';
 
 /* Instruments */
-import { JWTPayload } from './types';
+import type { JWTPayload } from '../types';
 
-dotenv.config({ path: join(__dirname, '../.env.development.local') });
+dotenv.config({ path: join(__dirname, '../../.env.development.local') });
 
 /* eslint-disable-next-line prefer-destructuring */
-export const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const decodeJWTPayload = (
     authHeader: string,

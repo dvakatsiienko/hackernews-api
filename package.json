@@ -36,6 +36,6 @@
         "@graphql-codegen/typescript": "2.2.2",
         "eslint": "7.32.0",
         "eslint-config-dva": "0.0.13",
-        "typescript": "4.4.3"
+        "typescript": "4.5.0-dev.20211001"
     }
 }
