@@ -8,5 +8,6 @@ module.exports = {
     github: {
         release: true,
         releaseName: 'v${version}',
+        // "releaseNotes": null,
     },
 };
