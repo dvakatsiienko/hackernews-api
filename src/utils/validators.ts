@@ -20,7 +20,7 @@ export const createSchema = (mode: Mode) => {
         ...loginShape,
         name: yup
             .string()
-            .min(4, 'Name is ${min} characters minimum .')
+            .min(4, 'Name is ${min} characters minimum.')
             .required('Required.'),
     };
 
@@ -48,7 +48,7 @@ export const validateAuthPayload = async (
     try {
         await schema.validate(input);
     } catch (error: any) {
-        throw new Error(error);
+        throw new Error(error.message);
     }
 };
 
