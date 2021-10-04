@@ -23,8 +23,8 @@ export const Mutation: MutationResolvers = {
         });
 
         const jwtPayload = {
-            userId: user.id,
-            email: args.email,
+            userId:   user.id,
+            email:    args.email,
             password: args.password,
         };
 
@@ -55,8 +55,8 @@ export const Mutation: MutationResolvers = {
         }
 
         const jwtPayload = {
-            userId: user.id,
-            email: args.email,
+            userId:   user.id,
+            email:    args.email,
             password: args.password,
         };
 
@@ -72,9 +72,9 @@ export const Mutation: MutationResolvers = {
 
         const newPost = await ctx.prisma.post.create({
             data: {
-                url: args.url,
+                url:         args.url,
                 description: args.description,
-                postedBy: {
+                postedBy:    {
                     connect: {
                         id: ctx.currentUser.userId,
                     },
@@ -94,8 +94,8 @@ export const Mutation: MutationResolvers = {
 
         const updatedPost = await ctx.prisma.post.update({
             where: { id: args.id },
-            data: {
-                url: args.url,
+            data:  {
+                url:         args.url,
                 description: args.description,
             },
         });
@@ -164,8 +164,6 @@ export const Mutation: MutationResolvers = {
         const deletedVote = await ctx.prisma.vote.delete({
             where: { id: isAlreadyVoted.id },
         });
-
-        console.log(deletedVote);
 
         // !TODO
         // ctx.pubsub.publish(EVENT.POST_VOTED, deletedVote);
