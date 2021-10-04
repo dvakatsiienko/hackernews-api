@@ -4,10 +4,13 @@ import bcrypt from 'bcryptjs';
 /* Instruments */
 import { Resolver, EVENT } from '../types';
 import type * as gql from '../graphql';
-import { encodeJWTPayload } from '../utils';
+import { encodeJWTPayload, validateAuthPayload } from '../utils';
 
 export const Mutation: MutationResolvers = {
     async signup(_, args, ctx) {
+        console.log('signup payload', args);
+        await validateAuthPayload('signup', args);
+
         const password = await bcrypt.hash(args.password, 10);
 
         const isEmailInUse = await ctx.prisma.user.findUnique({
@@ -37,6 +40,9 @@ export const Mutation: MutationResolvers = {
     },
 
     async login(_, args, ctx) {
+        console.log('login payload', args);
+        await validateAuthPayload('login', args);
+
         const user = await ctx.prisma.user.findUnique({
             where: { email: args.email },
         });
