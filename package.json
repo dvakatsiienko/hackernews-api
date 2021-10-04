@@ -5,7 +5,8 @@
     "license": "MIT",
     "scripts": {
         "start": "ts-node-dev --rs src",
-        "codegen:graphql": "graphql-codegen --config \"./graphql-codegen.yml\""
+        "codegen:graphql": "graphql-codegen --config \"./graphql-codegen.yml\"",
+        "release": "release-it"
     },
     "prisma": {
         "seed": "ts-node-dev prisma/seed"
