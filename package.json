@@ -23,6 +23,7 @@
         "chalk": "4.1.2",
         "dotenv": "10.0.0",
         "express": "4.17.1",
+        "faker": "5.5.3",
         "graphql": "15.6.0",
         "graphql-subscriptions": "1.2.1",
         "graphql-ws": "5.5.0",
@@ -34,8 +35,10 @@
     "devDependencies": {
         "@graphql-codegen/cli": "2.2.0",
         "@graphql-codegen/typescript": "2.2.2",
+        "@types/faker": "5.5.8",
         "eslint": "7.32.0",
         "eslint-config-dva": "0.0.13",
+        "release-it": "14.11.6",
         "typescript": "4.5.0-dev.20211002"
     }
 }
